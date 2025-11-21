@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import LogService from "./utils/LogService";
 
 function CustomerManager() {
     const [customers, setCustomers] = useState([]);
@@ -11,12 +12,17 @@ function CustomerManager() {
         fetchCustomers();
     }, []);
 
+    const handleError = (error, stepDescription) => {
+        const errorMessage = `Error in ${stepDescription}: ${error}`;
+        LogService.sendLog(errorMessage, 'ERROR');
+    };
+
     const fetchCustomers = async () => {
         try {
             const res = await axios.get('/api/customers');
             setCustomers(res.data);
         } catch (err) {
-            console.error('Error fetching customers:', err);
+            handleError(err, 'Error fetching customers');
         }
     };
 
@@ -45,7 +51,7 @@ function CustomerManager() {
             setEditFormData({ name: '', email: '', phone: '' });
             fetchCustomers();
         } catch (err) {
-            console.error('Error updating customer:', err);
+            handleError(err, 'Error updating customer');
         }
     };
 
@@ -54,7 +60,7 @@ function CustomerManager() {
             await axios.delete(`/api/customers/${id}`);
             fetchCustomers();
         } catch (err) {
-            console.error('Error deleting customer:', err);
+            handleError(err, 'Error deleting customer');
         }
     };
 
@@ -65,7 +71,7 @@ function CustomerManager() {
             setNewCustomer({ name: '', email: '', phone: '' });
             fetchCustomers();
         } catch (err) {
-            console.error('Error adding customer:', err);
+            handleError(err, 'Error adding customer');
         }
     };
 
