@@ -1,0 +1,21 @@
+networks:
+  app:
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: ./src/main/java/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app
+
+  frontend:
+    build:
+      context: ./src/main/ui
+    ports:
+      - "3000:80"
+    volumes:
+      - ./docker-config/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app
