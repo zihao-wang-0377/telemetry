@@ -8,6 +8,8 @@ This repository provides a full-stack logging and monitoring solution built usin
 
 This setup enables seamless logging from your React frontend and Spring Boot backend directly into the central stack.
 
+![grafana_dashboard.gif](assets/grafana_dashboard.gif)
+
 ## Installation
 
 1. Install the Spring Boot application with Maven:
